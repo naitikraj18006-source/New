@@ -17,11 +17,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
+      - name: Zip kholo
+        run: |
+          if [ -f Ramu-project.zip ]; then
+            mkdir -p ramu-src
+            unzip -q Ramu-project.zip -d ramu-src
+          fi
       - name: APK build karo
         run: |
-          S=$(find . -name settings.gradle.kts -not -path "*/node_modules/*" | head -1)
+          S=$(find . -name settings.gradle.kts | head -1)
           if [ -z "$S" ]; then
-            echo "settings.gradle.kts repository mein nahi mili. Project ki files upload karo."
+            echo "settings.gradle.kts nahi mili"
             ls -R
             exit 1
           fi
